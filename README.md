@@ -1,4 +1,5 @@
 # Homer
+[![Build Status](https://travis-ci.org/nsg/homer.svg?branch=master)](https://travis-ci.org/nsg/homer)
 
 Last year I started to connect various systems in my home, made a simple POC in the form of a Python based application that was both a API and a web page to control the system. Later on it expanded to a third system in the "cloud" that internet based services pushed messages to.
 
