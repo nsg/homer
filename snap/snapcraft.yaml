@@ -1,0 +1,33 @@
+---
+
+name: homer-nsg
+version: git
+summary: "nsg's Home Automation API/System"
+description: |
+  If you are not me, you probably have no need to install this.
+  Check out the code at https://github.com/nsg/homer
+grade: devel
+confinement: strict
+
+apps:
+  homer-nsg:
+    command: bin/launcher
+    daemon: simple
+    plugs:
+      - network-bind
+
+parts:
+  homer-nsg:
+    plugin: rust
+    rust-channel: nightly
+    source: .
+  templates:
+    plugin: dump
+    source: templates
+    organize:
+      '*': 'bin/templates/'
+  launcher:
+    plugin: dump
+    source: snap/bin/
+    organize:
+      '*': 'bin/'
