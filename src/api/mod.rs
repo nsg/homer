@@ -41,11 +41,15 @@ fn setup() -> HueConnectionData {
     HueConnectionData{token, url}
 }
 
+fn api(path: &str) -> String {
+    let huecon = setup();
+    let url = format!("{}/api/{}/{}", huecon.url, huecon.token, path);
+    get_http(url)
+}
+
 #[get("/config")]
 fn config() -> Json {
-    let huecon = setup();
-    let url = format!("{}/api/{}/config", huecon.url, huecon.token);
-    let data = get_http(url);
+    let data = api("config");
     let lr: serde_json::Value = serde_json::from_str(&data).unwrap();
 
     Json(json!({
@@ -55,9 +59,7 @@ fn config() -> Json {
 
 #[get("/config/<val>")]
 fn config_value(val: String) -> Json {
-    let huecon = setup();
-    let url = format!("{}/api/{}/config", huecon.url, huecon.token);
-    let data = get_http(url);
+    let data = api("config");
     let lr: serde_json::Value = serde_json::from_str(&data).unwrap();
 
     Json(json!({
