@@ -31,6 +31,12 @@ fn api(path: &str) -> serde_json::Value {
     serde_json::from_str(&data).unwrap()
 }
 
+fn api_post(path: &str, j: serde_json::Value) {
+    let huecon = setup();
+    let url = format!("{}/api/{}/{}", huecon.url, huecon.token, path);
+    api::put_http(url, format!("{}", j));
+}
+
 #[get("/config")]
 fn config() -> Json {
     Json(json!({
@@ -78,3 +84,10 @@ fn lights_name(name: String) -> Json {
         "error": format!("No lamp called {} found", name)
     }))
 }
+
+#[put("/lights/<id>/<state>")]
+fn set_light_id(id: u8, state: bool) {
+    let body = json!({"on": state});
+    api_post(&format!("lights/{}/state", id), body);
+}
+

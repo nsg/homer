@@ -27,7 +27,8 @@ fn main() {
                hue::config_value,
                hue::lights,
                hue::lights_id,
-               hue::lights_name
+               hue::lights_name,
+               hue::set_light_id
         ])
         .attach(Template::fairing())
         .launch();

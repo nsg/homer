@@ -13,22 +13,26 @@ You need to specify two environment variables:
 
 Dump the configuration from the bridge in JSON format.
 
-    /api/hue/config/
+    GET /api/hue/config/
 
 Only dump part of the configuration, for example use `/api/hue/config/name` to return the bridges name.
 
-    /api/hue/config/<str>
+    GET /api/hue/config/<str>
 
 #### Lamps
 
 Return all lamps registered with the bridge.
 
-    /api/hue/lamps/
+    GET /api/hue/lamps/
 
 Only return the lamp with the specified id.
 
-    /api/hue/lamps/<id>
+    GET /api/hue/lamps/<id>
 
 Only return the lamp with the specified name. Note that this is an exact match.
 
-    /api/hue/lamps/<name>
+    GET /api/hue/lamps/<name>
+
+Turn a lamp on or off
+
+    PUT /api/hue/lamps/<id>/{true,false}
