@@ -2,6 +2,7 @@
 #![plugin(rocket_codegen)]
 
 #[macro_use] extern crate rocket_contrib;
+
 extern crate rocket;
 extern crate curl;
 
