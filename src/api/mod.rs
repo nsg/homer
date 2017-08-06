@@ -1,15 +1,22 @@
 use std::env;
 use rocket_contrib::Json;
-use std::io::{stdout, Write};
 use curl::easy::Easy;
 
-fn get_http(uri: String) {
-    let mut easy = Easy::new();
-    easy.url(uri.as_str()).unwrap();
-    easy.write_function(|data| {
-        Ok(stdout().write(data).unwrap())
-    }).unwrap();
-    easy.perform().unwrap();
+fn get_http(url: String) -> String {
+    let mut curl = Easy::new();
+    let mut dst = Vec::new();
+    curl.url(&url).unwrap();
+
+    {
+        let mut tr = curl.transfer();
+        tr.write_function(|d| {
+            dst.extend_from_slice(d);
+            Ok(d.len())
+        }).unwrap();
+        tr.perform().unwrap()
+    }
+
+    String::from_utf8(dst).unwrap()
 }
 
 #[get("/<cmd>")]
@@ -24,10 +31,11 @@ fn hue(cmd: String) -> Json {
         _ => return Json(json!({"error": "Hue URL not found"}))
     };
 
-    get_http(format!("{}/api/{}", hue_url, token));
+    let r = get_http(format!("{}/api/{}", hue_url, token));
 
     Json(json!({
         "command": cmd,
-        "token": token
+        "token": token,
+        "result": r
     }))
 }
