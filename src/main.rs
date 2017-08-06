@@ -21,7 +21,7 @@ fn index() -> Template {
 fn main() {
     rocket::ignite()
         .mount("/", routes![index])
-        .mount("/api/hue/", routes![api::hue])
+        .mount("/api/hue/", routes![api::config, api::config_value])
         .attach(Template::fairing())
         .launch();
 }

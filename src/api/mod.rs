@@ -42,7 +42,7 @@ fn setup() -> HueConnectionData {
 }
 
 #[get("/config")]
-fn hue() -> Json {
+fn config() -> Json {
     let huecon = setup();
     let url = format!("{}/api/{}/config", huecon.url, huecon.token);
     let data = get_http(url);
@@ -50,5 +50,17 @@ fn hue() -> Json {
 
     Json(json!({
         "config": lr
+    }))
+}
+
+#[get("/config/<val>")]
+fn config_value(val: String) -> Json {
+    let huecon = setup();
+    let url = format!("{}/api/{}/config", huecon.url, huecon.token);
+    let data = get_http(url);
+    let lr: serde_json::Value = serde_json::from_str(&data).unwrap();
+
+    Json(json!({
+        "config": lr[val]
     }))
 }
