@@ -6,9 +6,10 @@
 extern crate rocket;
 extern crate curl;
 
-use rocket_contrib::Template;
-
 mod api;
+
+use rocket_contrib::Template;
+use api::hue;
 
 #[get("/")]
 fn index() -> Template {
@@ -21,7 +22,7 @@ fn index() -> Template {
 fn main() {
     rocket::ignite()
         .mount("/", routes![index])
-        .mount("/api/hue/", routes![api::config, api::config_value])
+        .mount("/api/hue/", routes![hue::config, hue::config_value])
         .attach(Template::fairing())
         .launch();
 }
