@@ -17,7 +17,6 @@ The resulting snap is a daemon that will start automatically.
 
 ### Install
 
-Stable: `sudo snap install homer-nsg`
 Master: `sudo snap install --edge homer-nsg`
 
 ### Manage the service

@@ -13,12 +13,12 @@ struct HueConnectionData {
 fn setup() -> HueConnectionData {
     let token = match env::var("HUE_TOKEN") {
         Ok(v) => v,
-        _ => panic!("Token not found")
+        _ => panic!("HUE_TOKEN not found")
     };
 
-    let url = match env::var("HUE_URL") {
+    let url = match env::var("HUE_IP") {
         Ok(v) => v,
-        _ => panic!("Hue url not found")
+        _ => panic!("HUE_IP not found")
     };
 
     HueConnectionData{token, url}
