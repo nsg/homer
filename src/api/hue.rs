@@ -99,6 +99,12 @@ fn set_on(id: u8, state: bool) {
 
 #[put("/lights/<id>/brightness/<brightness>")]
 fn set_brightnes(id: u8, brightness: u8) {
-    let body = json!({"bri": brightness});
+    let bri = if brightness > 254 {
+        254
+    } else {
+        brightness
+    };
+
+    let body = json!({"bri": bri});
     api_post(&format!("lights/{}/state", id), body);
 }
