@@ -7,7 +7,8 @@ use api;
 
 struct HueConnectionData {
     token: String,
-    url: String
+    url: String,
+    port: String
 }
 
 fn setup() -> HueConnectionData {
@@ -21,19 +22,24 @@ fn setup() -> HueConnectionData {
         _ => panic!("HUE_IP not found")
     };
 
-    HueConnectionData{token, url}
+    let port = match env::var("HUE_PORT") {
+        Ok(v) => v,
+        _ => "80".to_string()
+    };
+
+    HueConnectionData{token, url, port}
 }
 
 fn api(path: &str) -> serde_json::Value {
     let huecon = setup();
-    let url = format!("{}/api/{}/{}", huecon.url, huecon.token, path);
+    let url = format!("{}:{}/api/{}/{}", huecon.url, huecon.port, huecon.token, path);
     let data = api::get_http(url);
     serde_json::from_str(&data).unwrap()
 }
 
 fn api_post(path: &str, j: serde_json::Value) {
     let huecon = setup();
-    let url = format!("{}/api/{}/{}", huecon.url, huecon.token, path);
+    let url = format!("{}:{}/api/{}/{}", huecon.url, huecon.port, huecon.token, path);
     api::put_http(url, format!("{}", j));
 }
 

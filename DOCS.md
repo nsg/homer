@@ -8,6 +8,7 @@ You need to specify two environment variables:
 
     HUE_IP=127.0.0.1:8080 # The IP/DNS and possible port to the bridge.
     HUE_TOKEN=123...      # A token (username) already registered with the bridge.
+    HUE_PORT=80           # Specify the port (defaults to 80)
 
 #### Config
 
