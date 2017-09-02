@@ -36,4 +36,8 @@ Only return the lamp with the specified name. Note that this is an exact match.
 
 Turn a lamp on or off
 
-    PUT /api/hue/lights/<id>/{true,false}
+    PUT /api/hue/lights/<id>/on/{true,false}
+
+Set lamp brightness
+
+    PUT /api/hue/lights/<id>/brightness/<0-254>

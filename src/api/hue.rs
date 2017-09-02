@@ -91,9 +91,14 @@ fn lights_name(name: String) -> Json {
     }))
 }
 
-#[put("/lights/<id>/<state>")]
-fn set_light_id(id: u8, state: bool) {
+#[put("/lights/<id>/on/<state>")]
+fn set_on(id: u8, state: bool) {
     let body = json!({"on": state});
     api_post(&format!("lights/{}/state", id), body);
 }
 
+#[put("/lights/<id>/brightness/<brightness>")]
+fn set_brightnes(id: u8, brightness: u8) {
+    let body = json!({"bri": brightness});
+    api_post(&format!("lights/{}/state", id), body);
+}
