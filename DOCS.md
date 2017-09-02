@@ -41,3 +41,10 @@ Turn a lamp on or off
 Set lamp brightness
 
     PUT /api/hue/lights/<id>/brightness/<0-254>
+
+Blink a lamp once, or for 10 seconds
+
+    PUT /api/hue/lights/<id>/alert/<mode>
+
+    mode = 1       Blink the lamp once
+    mode = 10      Blick for 10 seconds

@@ -29,7 +29,8 @@ fn main() {
                hue::lights_id,
                hue::lights_name,
                hue::set_on,
-               hue::set_brightnes
+               hue::set_brightnes,
+               hue::set_alert
         ])
         .attach(Template::fairing())
         .launch();

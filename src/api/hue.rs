@@ -108,3 +108,15 @@ fn set_brightnes(id: u8, brightness: u8) {
     let body = json!({"bri": bri});
     api_post(&format!("lights/{}/state", id), body);
 }
+
+#[put("/lights/<id>/alert/<mode>")]
+fn set_alert(id: u8, mode: u8) {
+    let m = if mode == 10 {
+        "lselect"
+    } else {
+        "select"
+    };
+
+    let body = json!({"alert": m});
+    api_post(&format!("lights/{}/state", id), body);
+}
