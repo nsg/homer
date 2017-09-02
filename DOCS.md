@@ -24,16 +24,16 @@ Only dump part of the configuration, for example use `/api/hue/config/name` to r
 
 Return all lamps registered with the bridge.
 
-    GET /api/hue/lamps/
+    GET /api/hue/lights/
 
 Only return the lamp with the specified id.
 
-    GET /api/hue/lamps/<id>
+    GET /api/hue/lights/<id>
 
 Only return the lamp with the specified name. Note that this is an exact match.
 
-    GET /api/hue/lamps/<name>
+    GET /api/hue/lights/<name>
 
 Turn a lamp on or off
 
-    PUT /api/hue/lamps/<id>/{true,false}
+    PUT /api/hue/lights/<id>/{true,false}
