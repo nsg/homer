@@ -30,6 +30,7 @@ fn main() {
                hue::lights_name,
                hue::lights_version,
                hue::set_on,
+               hue::set_on_name,
                hue::set_brightnes,
                hue::set_alert
         ])

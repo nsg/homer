@@ -44,6 +44,11 @@ fn api_post(path: &str, j: serde_json::Value) {
     api::put_http(url, format!("{}", j));
 }
 
+fn get_id_from_name_data(name: String) -> Result<String, &'static str> {
+    let data = api("lights");
+    get_id_from_name(data, name)
+}
+
 fn get_id_from_name(data: serde_json::Value, name: String) -> Result<String, &'static str> {
     let num_of_lamps = data.as_object().unwrap().len() + 1;
 
@@ -121,6 +126,16 @@ fn lights_version() -> Json {
 fn set_on(id: u8, state: bool) {
     let body = json!({"on": state});
     api_post(&format!("lights/{}/state", id), body);
+}
+
+#[put("/lights/<name>/on/<state>", rank = 2)]
+fn set_on_name(name: String, state: bool) {
+    let body = json!({"on": state});
+    let id = get_id_from_name_data(name);
+    match id {
+        Ok(v) => api_post(&format!("lights/{}/state", v), body),
+        Err(e) => print!("{}", e)
+    }
 }
 
 #[put("/lights/<id>/brightness/<brightness>")]

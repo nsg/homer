@@ -40,7 +40,7 @@ Inspect the software version of the lamps
 
 Turn a lamp on or off
 
-    PUT /api/hue/lights/<id>/on/{true,false}
+    PUT /api/hue/lights/<id|name>/on/{true,false}
 
 Set lamp brightness
 
