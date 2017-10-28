@@ -28,6 +28,7 @@ fn main() {
                hue::lights,
                hue::lights_id,
                hue::lights_name,
+               hue::lights_version,
                hue::set_on,
                hue::set_brightnes,
                hue::set_alert

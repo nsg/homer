@@ -34,6 +34,10 @@ Only return the lamp with the specified name. Note that this is an exact match.
 
     GET /api/hue/lights/<name>
 
+Inspect the software version of the lamps
+
+    GET /api/hue/lights/version
+
 Turn a lamp on or off
 
     PUT /api/hue/lights/<id>/on/{true,false}

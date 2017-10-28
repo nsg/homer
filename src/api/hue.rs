@@ -92,6 +92,27 @@ fn lights_name(name: String) -> Json {
     }))
 }
 
+#[get("/lights/version")]
+fn lights_version() -> Json {
+    let data = api("lights");
+    let num_of_lamps = data.as_object().unwrap().len() + 1;
+    let mut ret = Vec::new();
+
+    for id in 1..num_of_lamps {
+        ret.push(
+            (
+                &data[id.to_string()]["name"],
+                &data[id.to_string()]["swversion"]
+            )
+        );
+
+    }
+
+    Json(json!({
+        "config": ret
+    }))
+}
+
 #[put("/lights/<id>/on/<state>")]
 fn set_on(id: u8, state: bool) {
     let body = json!({"on": state});
