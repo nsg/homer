@@ -21,6 +21,10 @@ parts:
     plugin: rust
     rust-channel: nightly
     source: .
+    stage-packages:
+      - pkg-config
+      - libssl-dev
+      - libcurl4-openssl-dev
   templates:
     plugin: dump
     source: templates
