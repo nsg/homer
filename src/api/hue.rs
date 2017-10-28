@@ -150,6 +150,22 @@ fn set_brightnes(id: u8, brightness: u8) {
     api_post(&format!("lights/{}/state", id), body);
 }
 
+#[put("/lights/<name>/brightness/<brightness>", rank = 2)]
+fn set_brightnes_name(name: String, brightness: u8) {
+    let bri = if brightness > 254 {
+        254
+    } else {
+        brightness
+    };
+
+    let body = json!({"bri": bri});
+    let id = get_id_from_name_data(name);
+    match id {
+        Ok(v) => api_post(&format!("lights/{}/state", v), body),
+        Err(e) => print!("{}", e)
+    }
+}
+
 #[put("/lights/<id>/alert/<mode>")]
 fn set_alert(id: u8, mode: u8) {
     let m = if mode == 10 {
@@ -160,4 +176,21 @@ fn set_alert(id: u8, mode: u8) {
 
     let body = json!({"alert": m});
     api_post(&format!("lights/{}/state", id), body);
+}
+
+#[put("/lights/<name>/alert/<mode>", rank = 2)]
+fn set_alert_name(name: String, mode: u8) {
+    let m = if mode == 10 {
+        "lselect"
+    } else {
+        "select"
+    };
+
+    let body = json!({"alert": m});
+    let id = get_id_from_name_data(name);
+    match id {
+        Ok(v) => api_post(&format!("lights/{}/state", v), body),
+        Err(e) => print!("{}", e)
+    }
+
 }
