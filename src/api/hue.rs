@@ -44,6 +44,19 @@ fn api_post(path: &str, j: serde_json::Value) {
     api::put_http(url, format!("{}", j));
 }
 
+fn get_id_from_name(data: serde_json::Value, name: String) -> Result<String, &'static str> {
+    let num_of_lamps = data.as_object().unwrap().len() + 1;
+
+    for id in 1..num_of_lamps {
+        let n = &data[id.to_string()]["name"];
+        if n.as_str().unwrap() == name {
+            return Ok(format!("{}",id));
+        }
+    }
+
+    Err("Lamp not found")
+}
+
 #[get("/config")]
 fn config() -> Json {
     Json(json!({
@@ -75,21 +88,12 @@ fn lights_id(id: u8) -> Json {
 #[get("/lights/<name>", rank = 2)]
 fn lights_name(name: String) -> Json {
     let data = api("lights");
-    let num_of_lamps = data.as_object().unwrap().len() + 1;
+    let id = get_id_from_name(data.clone(), name);
 
-    for id in 1..num_of_lamps {
-        let n = &data[id.to_string()]["name"];
-        if n.as_str().unwrap() == name {
-            println!("lamp {} => {:?}", id, data[id.to_string()]["name"]);
-            return Json(json!({
-                "lamp": data[id.to_string()]
-            }))
-        }
+    match id {
+        Ok(v) => Json(json!({"lamp": data[v]})),
+        Err(e) => Json(json!({"error": e})),
     }
-
-    Json(json!({
-        "error": format!("No lamp called {} found", name)
-    }))
 }
 
 #[get("/lights/version")]
