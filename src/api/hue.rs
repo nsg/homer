@@ -3,6 +3,7 @@ extern crate serde_json;
 extern crate palette;
 
 use rocket_contrib::Json;
+use self::palette::{Rgb, Hsv};
 use std::env;
 use api;
 
@@ -60,6 +61,14 @@ fn get_id_from_name(data: serde_json::Value, name: String) -> Result<String, &'s
     }
 
     Err("Lamp not found")
+}
+
+fn hex_to_rgb(hex: String) -> (f32, f32, f32) {
+    let r = u8::from_str_radix(&hex[..2], 16).unwrap();
+    let g = u8::from_str_radix(&hex[2..4], 16).unwrap();
+    let b = u8::from_str_radix(&hex[4..6], 16).unwrap();
+
+    (r as f32 / 255.0, g as f32 / 255.0, b as f32 / 255.0)
 }
 
 #[get("/config")]
@@ -190,6 +199,39 @@ fn set_alert_name(name: String, mode: u8) {
     let id = get_id_from_name_data(name);
     match id {
         Ok(v) => api_post(&format!("lights/{}/state", v), body),
+        Err(e) => print!("{}", e)
+    }
+
+}
+
+#[put("/lights/<id>/color/<color>")]
+fn set_color(id: u8, color: String) {
+    // r, g and b are floats from 0.0 to 1.0
+    let (r, g, b) = hex_to_rgb(color);
+
+    let rgb = Rgb::new(r, g, b);
+    let hsv: Hsv = Hsv::from(rgb).into();
+
+    // to_positive_degrees() returns 0..360, hue uses
+    // 0..65535 so I do a quick and dirty convert.
+    let hue = hsv.hue.to_positive_degrees() * 182.0;
+
+    // sat and bri also uses 0..254
+    let body = json!({
+        "hue": hue as u32,
+        "sat": (hsv.saturation * 254.0) as u8,
+        "bri": (hsv.value * 254.0) as u8
+    });
+
+    api_post(&format!("lights/{}/state", id), body)
+}
+
+#[put("/lights/<name>/color/<color>", rank = 2)]
+fn set_color_name(name: String, color: String) {
+    let id = get_id_from_name_data(name);
+
+    match id {
+        Ok(v) => set_color(v.parse::<u8>().unwrap(), color),
         Err(e) => print!("{}", e)
     }
 

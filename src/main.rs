@@ -34,7 +34,9 @@ fn main() {
                hue::set_brightnes,
                hue::set_brightnes_name,
                hue::set_alert,
-               hue::set_alert_name
+               hue::set_alert_name,
+               hue::set_color,
+               hue::set_color_name
         ])
         .attach(Template::fairing())
         .launch();

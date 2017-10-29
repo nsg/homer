@@ -42,6 +42,10 @@ Set lamp brightness
 
     PUT /api/hue/lights/<id|name>/brightness/<0-254>
 
+Set lamp color from hex rgb (like ff0000)
+
+    PUT /api/hue/lights/<id|name>/color/<hex>
+
 Blink a lamp once, or for 10 seconds
 
     PUT /api/hue/lights/<id|name>/alert/<mode>
