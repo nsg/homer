@@ -26,13 +26,9 @@ Return all lamps registered with the bridge.
 
     GET /api/hue/lights/
 
-Only return the lamp with the specified id.
+Only return the lamp with the specified id or name.
 
-    GET /api/hue/lights/<id>
-
-Only return the lamp with the specified name. Note that this is an exact match.
-
-    GET /api/hue/lights/<name>
+    GET /api/hue/lights/<id|name>
 
 Inspect the software version of the lamps
 
